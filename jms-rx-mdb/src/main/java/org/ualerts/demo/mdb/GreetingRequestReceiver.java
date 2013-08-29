@@ -37,7 +37,6 @@ public class GreetingRequestReceiver implements MessageListener {
       String text = ((TextMessage) message).getText();
       GreetingRequest request = (GreetingRequest) 
           GreetingMarshaller.getInstance().unmarshal(text);
-      System.out.println("request for: " + request.getName());
       Destination destination = message.getJMSReplyTo();
       if (destination != null) {
         connection = connectionFactory.createConnection();
@@ -47,6 +46,7 @@ public class GreetingRequestReceiver implements MessageListener {
         response.setGreeting("Hello, " + request.getName());
         TextMessage reply = session.createTextMessage(
             GreetingMarshaller.getInstance().marshal(response));
+        reply.setJMSCorrelationID(message.getJMSCorrelationID());
         producer.send(reply);
       }
     }
