@@ -20,5 +20,5 @@ public class GreetingRequest {
   public void setName(String name) {
     this.name = name;
   }
-    
+  
 }
