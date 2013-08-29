@@ -1,8 +1,11 @@
 package org.ualerts.demo.service;
 
+import java.util.UUID;
+
 import javax.annotation.Resource;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -28,11 +31,15 @@ public class GreetingServiceBean implements GreetingService {
   @Resource(name = "java:/queue/testReply")
   private Destination replyQueue;
   
+  @EJB
+  private GreetingCorrelationService correlationService;
+  
   /**
    * {@inheritDoc}
    */
   @Override
-  public String generateGreeting(String name) {
+  public void generateGreeting(String name, 
+      GreetingResponseHandler handler) {
     Connection connection = null;
     try {
       connection = connectionFactory.createConnection();
@@ -41,8 +48,10 @@ public class GreetingServiceBean implements GreetingService {
       MessageProducer producer = session.createProducer(requestQueue);
       TextMessage message = session.createTextMessage(createRequest(name));
       message.setJMSReplyTo(replyQueue);
+      String id = UUID.randomUUID().toString();
+      message.setJMSCorrelationID(id);
       producer.send(message);
-      return null;
+      correlationService.put(id, handler);
     }
     catch (JMSException ex) {
       ex.printStackTrace(System.err);
