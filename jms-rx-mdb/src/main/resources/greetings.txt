@@ -1,0 +1,5 @@
+sup, {0}?
+Hello, {0}.
+What up wit cha, {0}?
+Greetings, {0}.
+Howdy, {0}!
