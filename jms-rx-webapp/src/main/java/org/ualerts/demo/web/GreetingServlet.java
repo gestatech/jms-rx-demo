@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.ualerts.demo.service.GreetingService;
 
-@WebServlet(urlPatterns = "/")
+@WebServlet(urlPatterns = "/", asyncSupported = true)
 public class GreetingServlet extends HttpServlet {
 
   private static final long serialVersionUID = -2825813671655554174L;
@@ -25,8 +25,9 @@ public class GreetingServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, 
       HttpServletResponse response) throws ServletException, IOException {
-    greetingService.generateGreeting("Cherylanne");
-    response.getWriter().println("request sent");
+    request.startAsync();
+    greetingService.generateGreeting("Cherylanne", 
+        new AsyncGreetingResponseHandler(request, response));
   }
 
 }
