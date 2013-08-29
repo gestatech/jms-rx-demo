@@ -67,18 +67,9 @@ public class GreetingServiceBean implements GreetingService {
   }
 
   private String createRequest(String name) {
-    try {
-      GreetingRequest request = new GreetingRequest();
-      request.setName(name);
-      JAXBContext context = JAXBContext.newInstance(GreetingRequest.class);
-      Marshaller marshaller = context.createMarshaller();
-      StringWriter writer = new StringWriter();
-      marshaller.marshal(request, writer);
-      return writer.toString();
-    }
-    catch (JAXBException ex) {
-      throw new RuntimeException(ex);
-    }
+    GreetingRequest request = new GreetingRequest();
+    request.setName(name);
+    return request.marshal();
   }
   
 }
