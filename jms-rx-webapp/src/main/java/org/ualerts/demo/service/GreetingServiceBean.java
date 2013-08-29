@@ -1,8 +1,5 @@
 package org.ualerts.demo.service;
 
-import java.io.StringWriter;
-
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
@@ -13,10 +10,9 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import javax.jms.TextMessage;
 
+import org.ualerts.demo.GreetingMarshaller;
 import org.ualerts.demo.GreetingRequest;
 
 @Singleton
@@ -27,14 +23,10 @@ public class GreetingServiceBean implements GreetingService {
   private ConnectionFactory connectionFactory;
 
   @Resource(name = "java:/queue/test")
-  private Destination destination;
+  private Destination requestQueue;
   
-  @PostConstruct
-  public void init() {
-    if (destination == null) {
-      throw new IllegalArgumentException("null destination injected");
-    }
-  }
+  @Resource(name = "java:/queue/testReply")
+  private Destination replyQueue;
   
   /**
    * {@inheritDoc}
@@ -46,8 +38,10 @@ public class GreetingServiceBean implements GreetingService {
       connection = connectionFactory.createConnection();
       Session session = connection.createSession(false, 
           Session.AUTO_ACKNOWLEDGE);
-      MessageProducer producer = session.createProducer(destination);
-      producer.send(session.createTextMessage(createRequest(name)));
+      MessageProducer producer = session.createProducer(requestQueue);
+      TextMessage message = session.createTextMessage(createRequest(name));
+      message.setJMSReplyTo(replyQueue);
+      producer.send(message);
       return null;
     }
     catch (JMSException ex) {
@@ -69,7 +63,7 @@ public class GreetingServiceBean implements GreetingService {
   private String createRequest(String name) {
     GreetingRequest request = new GreetingRequest();
     request.setName(name);
-    return request.marshal();
+    return GreetingMarshaller.getInstance().marshal(request);
   }
   
 }
