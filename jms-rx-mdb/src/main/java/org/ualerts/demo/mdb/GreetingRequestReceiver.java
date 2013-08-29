@@ -17,6 +17,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.ualerts.demo.GreetingMarshaller;
+import org.ualerts.demo.GreetingRepository;
 import org.ualerts.demo.GreetingRequest;
 import org.ualerts.demo.GreetingResponse;
 

@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 
 import org.apache.commons.io.IOUtils;
+import org.ualerts.demo.GreetingRepository;
 
 @Stateless
 public class GreetingRepositoryBean implements GreetingRepository {
