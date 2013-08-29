@@ -1,7 +1,10 @@
 package org.ualerts.demo.mdb;
 
+import java.text.MessageFormat;
+
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -26,6 +29,9 @@ public class GreetingRequestReceiver implements MessageListener {
 
   @Resource(name = "java:/ConnectionFactory")
   private ConnectionFactory connectionFactory;
+
+  @EJB
+  private GreetingRepository greetingRepository;
   
   /**
    * {@inheritDoc}
@@ -42,10 +48,9 @@ public class GreetingRequestReceiver implements MessageListener {
         connection = connectionFactory.createConnection();
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         MessageProducer producer = session.createProducer(destination);
-        GreetingResponse response = new GreetingResponse();
-        response.setGreeting("Hello, " + request.getName());
         TextMessage reply = session.createTextMessage(
-            GreetingMarshaller.getInstance().marshal(response));
+            GreetingMarshaller.getInstance().marshal(
+                createResponse(request)));
         reply.setJMSCorrelationID(message.getJMSCorrelationID());
         producer.send(reply);
       }
@@ -63,6 +68,14 @@ public class GreetingRequestReceiver implements MessageListener {
         }
       }
     }
+  }
+
+  private GreetingResponse createResponse(GreetingRequest request) {
+    GreetingResponse response = new GreetingResponse();
+    String template = greetingRepository.randomGreeting();
+    String greeting = MessageFormat.format(template, request.getName());
+    response.setGreeting(greeting);
+    return response;
   }
 
 }

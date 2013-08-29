@@ -8,6 +8,9 @@
         <dependent-module archiveName="jms-rx-api-1.0.0-SNAPSHOT.jar" deploy-path="/lib/" handle="module:/resource/jms-rx-api/jms-rx-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="commons-io-2.4.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/commons-io/commons-io/2.4/commons-io-2.4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="component.exclusion.patterns" value="**/.gitignore"/>
     </wb-module>
 </project-modules>
