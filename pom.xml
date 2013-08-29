@@ -10,5 +10,5 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>JMS Receiver Demo</name>
-  <description>Demostrates a couple of different deployment models for server components that receive and act on JMS messages, but don't have any sort of web frontend.</description>
+  <description>Demonstrates a couple of different deployment models for server components that receive and act on JMS messages, but don't have any sort of web frontend.</description>
 </project>
