@@ -22,7 +22,7 @@ import org.ualerts.demo.GreetingResponse;
         propertyValue = "Auto-acknowledge")
 })
 
-public class GreetingRequestHandler implements MessageListener {
+public class GreetingRequestReceiver implements MessageListener {
 
   @Resource(name = "java:/ConnectionFactory")
   private ConnectionFactory connectionFactory;

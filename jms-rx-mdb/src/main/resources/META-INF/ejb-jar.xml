@@ -5,7 +5,7 @@
   
   <enterprise-beans>
     <message-driven>
-      <ejb-name>GreetingRequestHandler</ejb-name>
+      <ejb-name>GreetingRequestReceiver</ejb-name>
       <activation-config>
         <activation-config-property>
           <activation-config-property-name>destination</activation-config-property-name>
