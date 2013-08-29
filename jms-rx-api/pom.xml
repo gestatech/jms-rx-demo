@@ -8,4 +8,10 @@
   <artifactId>jms-rx-api</artifactId>
   <name>JMS RX API</name>
   <description>Provides the common API used by the receiver component and other components that send messages to the receiver component</description>
+  <dependencies>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+    </dependency>
+  </dependencies>
 </project>
