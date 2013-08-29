@@ -1,6 +1,7 @@
 package org.ualerts.demo.service;
 
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.Connection;
 import javax.jms.JMSException;
@@ -18,6 +19,9 @@ import org.ualerts.demo.GreetingResponse;
 
 public class GreetingResponseReceiver implements MessageListener {
   
+  @EJB
+  private GreetingCorrelationService correlationService;
+  
   /**
    * {@inheritDoc}
    */
@@ -28,7 +32,15 @@ public class GreetingResponseReceiver implements MessageListener {
       String text = ((TextMessage) message).getText();
       GreetingResponse response = (GreetingResponse) 
           GreetingMarshaller.getInstance().unmarshal(text);
-      System.out.println("response received: " + response.getGreeting());
+      GreetingResponseHandler handler = correlationService.take(
+          message.getJMSCorrelationID());
+      if (handler != null) {
+        handler.handleResponse(response.getGreeting());
+      }
+      else {
+        System.err.println("response with no handler: " 
+            + response.getGreeting());
+      }
     }
     catch (JMSException ex) {
       throw new RuntimeException(ex);
