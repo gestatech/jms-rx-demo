@@ -1,0 +1,14 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.ualerts</groupId>
+    <artifactId>ualerts-config</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <groupId>org.ualerts.demo</groupId>
+  <artifactId>jms-rx-demo</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>JMS Receiver Demo</name>
+  <description>Demostrates a couple of different deployment models for server components that receive and act on JMS messages, but don't have any sort of web frontend.</description>
+</project>
