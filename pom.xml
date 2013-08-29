@@ -11,6 +11,20 @@
   <packaging>pom</packaging>
   <name>JMS Receiver Demo</name>
   <description>Demonstrates a couple of different deployment models for server components that receive and act on JMS messages, but don't have any sort of web frontend.</description>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>6.0</version>
+      </dependency>
+      <dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-web-api</artifactId>
+        <version>6.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <modules>
     <module>jms-rx-api</module>
     <module>jms-rx-webapp</module>
