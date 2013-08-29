@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="jmx-rx-mdb-demo-1.0.0-SNAPSHOT">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="jms-rx-mdb-1.0.0-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/jms-rx-mdb/jms-rx-mdb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jms-rx-api-1.0.0-SNAPSHOT.jar" deploy-path="/lib/" handle="module:/resource/jms-rx-api/jms-rx-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="component.exclusion.patterns" value="**/.gitignore"/>
+    </wb-module>
+</project-modules>
