@@ -19,9 +19,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.4</version>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>jms-rx-repository</artifactId>
+      <version>${project.version}</version>
+      <type>ejb</type>
+      <classifier>client</classifier>
     </dependency>
   </dependencies>
 </project>
