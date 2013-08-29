@@ -19,6 +19,10 @@
           <modules>
             <ejbModule>
               <groupId>${project.groupId}</groupId>
+              <artifactId>jms-rx-repository</artifactId>
+            </ejbModule>
+            <ejbModule>
+              <groupId>${project.groupId}</groupId>
               <artifactId>jms-rx-mdb</artifactId>
             </ejbModule>
           </modules>
@@ -27,6 +31,12 @@
     </plugins>
   </build>
   <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>jms-rx-repository</artifactId>
+      <version>${project.version}</version>
+      <type>ejb</type>
+    </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>jms-rx-mdb</artifactId>
