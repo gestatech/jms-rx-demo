@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.ualerts.demo</groupId>
+    <artifactId>jms-rx-demo</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>jmx-rx-mdb-demo</artifactId>
+  <packaging>ear</packaging>
+  <name>JMS RX MDB Demo</name>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-ear-plugin</artifactId>
+        <configuration>
+          <displayName>JMS RX MDB Demo</displayName>
+          <description>A demonstration of using an MDB and EAR for a component
+            that receives messages but does not present a web frontend.</description>
+          <modules>
+            <ejbModule>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>jms-rx-mdb</artifactId>
+            </ejbModule>
+          </modules>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>jms-rx-mdb</artifactId>
+      <version>${project.version}</version>
+      <type>ejb</type>
+    </dependency>
+  </dependencies>
+</project>

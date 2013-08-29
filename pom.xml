@@ -31,5 +31,6 @@
     <module>jms-rx-api</module>
     <module>jms-rx-webapp</module>
     <module>jms-rx-mdb</module>
+    <module>jmx-rx-mdb-demo</module>
   </modules>
 </project>
