@@ -33,11 +33,11 @@ public class GreetingMarshaller {
     }
   }
   
-  public GreetingRequest unmarshal(String text) {
+  public Object unmarshal(String text) {
     try {
       Unmarshaller unmarshaller = getContext().createUnmarshaller();
       StringReader reader = new StringReader(text);
-      return (GreetingRequest) unmarshaller.unmarshal(reader);
+      return unmarshaller.unmarshal(reader);
     }
     catch (JAXBException ex) {
       throw new RuntimeException(ex);
