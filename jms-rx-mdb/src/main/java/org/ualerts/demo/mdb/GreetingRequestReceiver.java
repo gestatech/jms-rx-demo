@@ -42,6 +42,7 @@ public class GreetingRequestReceiver implements MessageListener {
   @Override
   public void onMessage(Message message) {
     Connection connection = null;
+    Session session = null;
     try {
       String text = ((TextMessage) message).getText();
       GreetingRequest request = (GreetingRequest) 
@@ -49,7 +50,7 @@ public class GreetingRequestReceiver implements MessageListener {
       Destination destination = message.getJMSReplyTo();
       if (destination != null) {
         connection = connectionFactory.createConnection();
-        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         MessageProducer producer = session.createProducer(destination);
         TextMessage reply = session.createTextMessage(
             GreetingMarshaller.getInstance().marshal(
@@ -62,6 +63,14 @@ public class GreetingRequestReceiver implements MessageListener {
       throw new RuntimeException(ex);
     }
     finally {
+      if (session != null) {
+        try {
+          session.close();
+        }
+        catch (JMSException ex) {
+          ex.printStackTrace(System.err);
+        }
+      }
       if (connection != null) {
         try {
           connection.close();
