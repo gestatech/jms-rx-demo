@@ -11,6 +11,9 @@
         <dependent-module archiveName="jms-rx-mdb-spring-1.0.0-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/jms-rx-mdb-spring/jms-rx-mdb-spring">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="jms-rx-ra-1.0.0-SNAPSHOT.rar" deploy-path="/" handle="module:/resource/jms-rx-ra/jms-rx-ra">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="commons-io-2.4.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/commons-io/commons-io/2.4/commons-io-2.4.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>

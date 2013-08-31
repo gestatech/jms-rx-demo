@@ -30,6 +30,10 @@
               <groupId>${project.groupId}</groupId>
               <artifactId>jms-rx-mdb-spring</artifactId>
             </ejbModule>
+            <rarModule>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>jms-rx-ra</artifactId>
+            </rarModule>
           </modules>
         </configuration>
       </plugin>
@@ -53,6 +57,12 @@
       <artifactId>jms-rx-mdb-spring</artifactId>
       <version>${project.version}</version>
       <type>ejb</type>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>jms-rx-ra</artifactId>
+      <version>${project.version}</version>
+      <type>rar</type>
     </dependency>
   </dependencies>
 </project>
