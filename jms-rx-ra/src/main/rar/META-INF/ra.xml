@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connector xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/connector_1_6.xsd"
+  version="1.6">
+  <vendor-name>Spring Framework</vendor-name>
+  <eis-type>Spring Connector</eis-type>
+  <resourceadapter-version>${springframework.version}</resourceadapter-version>
+  <resourceadapter>
+    <resourceadapter-class>org.springframework.jca.context.SpringContextResourceAdapter</resourceadapter-class>
+    <config-property>
+      <config-property-name>ContextConfigLocation</config-property-name>
+      <config-property-type>java.lang.String</config-property-type>
+      <config-property-value>META-INF/applicationContext.xml</config-property-value>
+    </config-property>
+  </resourceadapter>
+</connector>
