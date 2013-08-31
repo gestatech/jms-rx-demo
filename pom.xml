@@ -34,5 +34,6 @@
     <module>jms-rx-mdb-demo</module>
     <module>jms-rx-mdb-spring</module>
     <module>jms-rx-repository</module>
+    <module>jms-rx-ra</module>
   </modules>
 </project>
