@@ -13,4 +13,5 @@
       <config-property-value>META-INF/applicationContext.xml</config-property-value>
     </config-property>
   </resourceadapter>
+  
 </connector>
