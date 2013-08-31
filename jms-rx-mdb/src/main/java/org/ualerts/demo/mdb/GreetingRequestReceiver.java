@@ -23,12 +23,14 @@ import org.ualerts.demo.repository.GreetingRepository;
 
 @MessageDriven(activationConfig = {
     @ActivationConfigProperty(propertyName = "acknowledgeMode", 
-        propertyValue = "Auto-acknowledge")
+        propertyValue = "Auto-acknowledge"),
+    @ActivationConfigProperty(propertyName = "destination",
+        propertyValue = "queue/test")
 })
 
 public class GreetingRequestReceiver implements MessageListener {
 
-  @Resource(name = "java:/ConnectionFactory")
+  @Resource(name = "jms/ConnectionFactory")
   private ConnectionFactory connectionFactory;
 
   @EJB
