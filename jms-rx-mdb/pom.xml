@@ -24,6 +24,7 @@
       <version>${project.version}</version>
       <type>ejb</type>
       <classifier>client</classifier>
+      <optional>true</optional>
     </dependency>
   </dependencies>
 </project>
