@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="jms-rx-mdb-demo-1.0.0-SNAPSHOT">
+    <wb-module deploy-name="jms-rx-demo-app-1.0.0-SNAPSHOT">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
         <dependent-module archiveName="jms-rx-repository-1.0.0-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/jms-rx-repository/jms-rx-repository">
@@ -12,6 +12,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jms-rx-ra-1.0.0-SNAPSHOT.rar" deploy-path="/" handle="module:/resource/jms-rx-ra/jms-rx-ra">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jms-rx-webapp-1.0.0-SNAPSHOT.war" deploy-path="/" handle="module:/resource/jms-rx-webapp/jms-rx-webapp">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-io-2.4.jar" deploy-path="/lib/" handle="module:/classpath/var/M2_REPO/commons-io/commons-io/2.4/commons-io-2.4.jar">
