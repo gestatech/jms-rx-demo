@@ -14,7 +14,9 @@ import org.ualerts.demo.GreetingResponse;
 
 @MessageDriven(activationConfig = {
     @ActivationConfigProperty(propertyName = "acknowledgeMode", 
-        propertyValue = "Auto-acknowledge")
+        propertyValue = "Auto-acknowledge"),
+    @ActivationConfigProperty(propertyName = "destination",
+        propertyValue = "queue/testReply")
 })
 
 public class GreetingResponseReceiver implements MessageListener {

@@ -22,13 +22,13 @@ import org.ualerts.demo.GreetingRequest;
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 public class GreetingServiceBean implements GreetingService {
 
-  @Resource(name = "java:/ConnectionFactory")
+  @Resource(name = "jms/ConnectionFactory")
   private ConnectionFactory connectionFactory;
 
-  @Resource(name = "java:/queue/test")
+  @Resource(name = "jms/queue/test")
   private Destination requestQueue;
   
-  @Resource(name = "java:/queue/testReply")
+  @Resource(name = "jms/queue/testReply")
   private Destination replyQueue;
   
   @EJB
