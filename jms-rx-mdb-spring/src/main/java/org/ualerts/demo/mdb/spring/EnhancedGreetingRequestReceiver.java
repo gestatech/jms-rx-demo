@@ -2,26 +2,20 @@ package org.ualerts.demo.mdb.spring;
 
 import java.text.MessageFormat;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.interceptor.Interceptors;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.MessageProducer;
-import javax.jms.Session;
-import javax.jms.TextMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
-import org.springframework.jms.listener.adapter.MessageListenerAdapter;
-import org.ualerts.demo.GreetingMarshaller;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessagePostProcessor;
+import org.springframework.jms.support.converter.MessageConverter;
 import org.ualerts.demo.GreetingRequest;
 import org.ualerts.demo.GreetingResponse;
 import org.ualerts.demo.repository.GreetingRepository;
@@ -37,54 +31,37 @@ import org.ualerts.demo.repository.GreetingRepository;
 
 public class EnhancedGreetingRequestReceiver implements MessageListener {
 
-  @Resource(name = "jms/ConnectionFactory")
-  private ConnectionFactory connectionFactory;
+  @Autowired(required = true)
+  private JmsTemplate jmsTemplate;
   
   @Autowired(required = true)
-  private MessageListenerAdapter adapter;
+  private MessageConverter messageConverter;
   
   @EJB
   private GreetingRepository greetingRepository;
-  
-  @PostConstruct
-  public void init() {
-    System.out.println(adapter);
-  }
-  
+    
   /**
    * {@inheritDoc}
    */
   @Override
-  public void onMessage(Message message) {
-    Connection connection = null;
+  public void onMessage(final Message message) {
     try {
-      String text = ((TextMessage) message).getText();
       GreetingRequest request = (GreetingRequest) 
-          GreetingMarshaller.getInstance().unmarshal(text);
+          messageConverter.fromMessage(message);
       Destination destination = message.getJMSReplyTo();
       if (destination != null) {
-        connection = connectionFactory.createConnection();
-        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        MessageProducer producer = session.createProducer(destination);
-        TextMessage reply = session.createTextMessage(
-            GreetingMarshaller.getInstance().marshal(
-                createResponse(request)));
-        reply.setJMSCorrelationID(message.getJMSCorrelationID());
-        producer.send(reply);
+        jmsTemplate.convertAndSend(destination, createResponse(request),
+            new MessagePostProcessor() {
+              public Message postProcessMessage(Message reply)
+                  throws JMSException {
+                reply.setJMSCorrelationID(message.getJMSCorrelationID());
+                return reply;
+              }          
+        });
       }
     }
     catch (JMSException ex) {
       throw new RuntimeException(ex);
-    }
-    finally {
-      if (connection != null) {
-        try {
-          connection.close();
-        }
-        catch (JMSException ex) {
-          ex.printStackTrace(System.err);
-        }
-      }
     }
   }
 
