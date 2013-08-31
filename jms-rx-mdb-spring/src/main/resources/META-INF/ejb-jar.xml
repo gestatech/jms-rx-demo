@@ -3,16 +3,5 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
   version="3.1">
-  
-  <enterprise-beans>
-    <message-driven>
-      <ejb-name>EnhancedGreetingRequestReceiver</ejb-name>
-      <resource-ref>
-        <res-ref-name>jms/ConnectionFactory</res-ref-name>
-        <res-type>javax.jms.ConnectionFactory</res-type>
-        <lookup-name>java:/ConnectionFactory</lookup-name>
-      </resource-ref>
-    </message-driven>
-  </enterprise-beans>
 
 </ejb-jar>
