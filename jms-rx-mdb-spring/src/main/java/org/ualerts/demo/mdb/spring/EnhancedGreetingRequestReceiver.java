@@ -60,6 +60,9 @@ public class EnhancedGreetingRequestReceiver implements MessageListener {
         });
       }
     }
+    catch (ClassCastException ex) {
+      System.err.println("ignored non-request message");
+    }
     catch (JMSException ex) {
       throw new RuntimeException(ex);
     }

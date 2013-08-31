@@ -59,6 +59,9 @@ public class GreetingRequestReceiver implements MessageListener {
         producer.send(reply);
       }
     }
+    catch (ClassCastException ex) {
+      System.err.println("ignored non-request message");
+    }
     catch (JMSException ex) {
       throw new RuntimeException(ex);
     }
