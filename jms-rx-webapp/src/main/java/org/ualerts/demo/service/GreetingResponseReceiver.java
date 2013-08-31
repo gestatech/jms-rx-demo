@@ -42,6 +42,9 @@ public class GreetingResponseReceiver implements MessageListener {
             + response.getGreeting());
       }
     }
+    catch (ClassCastException ex) {
+      System.err.println("ignoring non-response message");
+    }
     catch (JMSException ex) {
       throw new RuntimeException(ex);
     }
