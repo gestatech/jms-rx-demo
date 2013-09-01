@@ -1,5 +1,8 @@
-sup, {0}?
-Hi, {0}!
-What up wit cha, {0}?
-Greetings, {0}.
-Howdy, {0}!
+'sup, %s?
+Hi, %s!
+What up wit cha, %s?
+Greetings, %s.
+Howdy, %s!
+What up, %1.1s!
+How do you do, %s?
+Hey there, %s!

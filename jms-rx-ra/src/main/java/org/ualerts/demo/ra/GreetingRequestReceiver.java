@@ -1,7 +1,5 @@
 package org.ualerts.demo.ra;
 
-import java.text.MessageFormat;
-
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -51,8 +49,8 @@ public class GreetingRequestReceiver implements MessageListener {
 
   private GreetingResponse createResponse(GreetingRequest request) {
     GreetingResponse response = new GreetingResponse();
-    String template = "Hello, {0}.";
-    String greeting = MessageFormat.format(template, request.getName());
+    String template = "Hello, %s.";
+    String greeting = String.format(template, request.getName());
     response.setGreeting(greeting);
     return response;
   }

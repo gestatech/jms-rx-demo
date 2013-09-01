@@ -1,7 +1,5 @@
 package org.ualerts.demo.mdb.spring;
 
-import java.text.MessageFormat;
-
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
@@ -71,7 +69,7 @@ public class EnhancedGreetingRequestReceiver implements MessageListener {
   private GreetingResponse createResponse(GreetingRequest request) {
     GreetingResponse response = new GreetingResponse();
     String template = greetingRepository.randomGreeting();
-    String greeting = MessageFormat.format(template, request.getName());
+    String greeting = String.format(template, request.getName());
     response.setGreeting(greeting);
     return response;
   }
