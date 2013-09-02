@@ -15,15 +15,11 @@ public abstract class AbstractGreetingServlet extends HttpServlet {
   private static final long serialVersionUID = -2574073959560484334L;
 
   private static final String ACCEPT_HEADER = "Accept";
-
   private static final String TEXT_HTML_TYPE = "text/html";
-
   private static final String TEXT_PLAIN_TYPE = "text/plain";
 
   private static final String VIEWS_LOCATION = "/WEB-INF/views/";
-
   private static final String FORM_VIEW = VIEWS_LOCATION + "form.jsp";
-
   private static final String SUCCESS_VIEW = VIEWS_LOCATION + "success.jsp";
 
   @EJB
