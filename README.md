@@ -9,11 +9,10 @@ The demo application is essentially "Hello, World", but with a few twists.
 A servlet provides a very basic UI that displays a greeting.  On a GET
 request to the servlet, it uses a ```GreetingService``` bean to send a 
 message containing the name of the person to greet, via a designated 
-JMS queue.  The GET request is marked for asynchronous handling; when a 
-reply is received on the designated JMS queue, the greeting it contains 
-is returned as the response to the GET request.  When the greeting service
-sends a greeting request, it sets the JMS reply-to header so that it
-references the designated reply queue.
+JMS queue.  When a reply is received on the designated JMS queue, 
+the greeting it contains is returned as the response to the GET request.  
+When the greeting service sends a greeting request, it sets the JMS 
+reply-to header so that it references the designated reply queue.
 
 The application contains three different components that handle greeting
 requests on the designated JMS queue.  All three components are deployed
@@ -64,7 +63,6 @@ two approaches our message-driven bean is injected with a reference to
 a stateless session bean that provides a repository of greeting templates.
 As a resource adapter component, our third approach cannot make use of
 the repository component.
-
 
 
 
