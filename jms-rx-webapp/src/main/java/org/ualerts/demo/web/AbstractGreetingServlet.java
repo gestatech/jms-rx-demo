@@ -14,6 +14,12 @@ public abstract class AbstractGreetingServlet extends HttpServlet {
 
   private static final long serialVersionUID = -2574073959560484334L;
 
+  private static final String ACCEPT_HEADER = "Accept";
+
+  private static final String TEXT_HTML_TYPE = "text/html";
+
+  private static final String TEXT_PLAIN_TYPE = "text/plain";
+
   private static final String VIEWS_LOCATION = "/WEB-INF/views/";
 
   private static final String FORM_VIEW = VIEWS_LOCATION + "form.jsp";
@@ -28,7 +34,13 @@ public abstract class AbstractGreetingServlet extends HttpServlet {
       HttpServletResponse response) throws ServletException, IOException {
     String name = request.getParameter("name");
     if (name == null || name.trim().isEmpty()) {
-      request.getRequestDispatcher(FORM_VIEW).forward(request, response);
+      if (headerContains(request, ACCEPT_HEADER, TEXT_HTML_TYPE)) {
+        request.getRequestDispatcher(FORM_VIEW).forward(request, response);
+      }
+      else {
+        response.setContentType(TEXT_PLAIN_TYPE);
+        response.getWriter().println("Specify a name using the 'name' parameter");
+      }
     }
     else {
       produceGreeting(name, request, response);
@@ -42,15 +54,20 @@ public abstract class AbstractGreetingServlet extends HttpServlet {
   protected void respondWithGreeting(String greeting,
       HttpServletRequest request, HttpServletResponse response) 
       throws ServletException, IOException {
-    String accept = request.getHeader("Accept");
-    if (accept != null && accept.contains("text/html")) {
+    if (headerContains(request, ACCEPT_HEADER, TEXT_HTML_TYPE)) {
       request.setAttribute("greeting", greeting);
       request.getRequestDispatcher(SUCCESS_VIEW).forward(request, response);
     }
     else {
-      response.setContentType("text/plain");
+      response.setContentType(TEXT_PLAIN_TYPE);
       response.getWriter().println(greeting);
     }
   }
 
+  private boolean headerContains(HttpServletRequest request, String header,
+      String s) {
+    String value = request.getHeader(header);
+    return value != null && value.contains(s);
+  }
+  
 }
