@@ -34,6 +34,23 @@ public class GreetingServiceBean implements GreetingService {
   @EJB
   private GreetingCorrelationService correlationService;
   
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String generateGreeting(String name) {
+    SynchronizedGreetingResponseHandler handler = new SynchronizedGreetingResponseHandler();
+    generateGreeting(name, handler);
+    try {
+      return handler.awaitResponse();
+    }
+    catch (InterruptedException ex) {
+      Thread.currentThread().interrupt();
+      return "INTERRUPTED";
+    }
+  }
+
   /**
    * {@inheritDoc}
    */
