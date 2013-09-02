@@ -1,1 +1,1 @@
-<% response.sendRedirect("/sync"); %>
+<jsp:forward page="/sync"/>
