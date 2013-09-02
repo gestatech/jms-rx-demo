@@ -82,7 +82,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>org.springframework.context</artifactId>
       <version>${springframework.version}</version>
-      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
