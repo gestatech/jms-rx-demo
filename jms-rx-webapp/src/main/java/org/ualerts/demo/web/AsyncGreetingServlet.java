@@ -2,17 +2,22 @@ package org.ualerts.demo.web;
 
 import java.io.IOException;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.ualerts.demo.service.GreetingResponseHandler;
+import org.ualerts.demo.service.GreetingService;
 
 @WebServlet(urlPatterns = "/async", asyncSupported = true)
 public class AsyncGreetingServlet extends AbstractGreetingServlet {
 
   private static final long serialVersionUID = -2825813671655554174L;
+  
+  @EJB
+  private GreetingService greetingService;
   
   @Override
   protected void produceGreeting(String name, 

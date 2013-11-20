@@ -2,13 +2,10 @@ package org.ualerts.demo.web;
 
 import java.io.IOException;
 
-import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.ualerts.demo.service.GreetingService;
 
 public abstract class AbstractGreetingServlet extends HttpServlet {
 
@@ -21,9 +18,6 @@ public abstract class AbstractGreetingServlet extends HttpServlet {
   private static final String VIEWS_LOCATION = "/WEB-INF/views/";
   private static final String FORM_VIEW = VIEWS_LOCATION + "form.jsp";
   private static final String SUCCESS_VIEW = VIEWS_LOCATION + "success.jsp";
-
-  @EJB
-  protected GreetingService greetingService;
 
   @Override
   protected void doGet(HttpServletRequest request, 
@@ -65,5 +59,5 @@ public abstract class AbstractGreetingServlet extends HttpServlet {
     String value = request.getHeader(header);
     return value != null && value.contains(s);
   }
-  
+
 }
