@@ -22,6 +22,9 @@ public class GreetingResponseReceiver implements MessageListener {
   @EJB
   private GreetingCorrelationService correlationService;
   
+  @EJB
+  private GreetingResponseService responseService;
+  
   /**
    * {@inheritDoc}
    */
@@ -34,8 +37,9 @@ public class GreetingResponseReceiver implements MessageListener {
       System.out.println("received greeting: " + response.getGreeting());
       GreetingResponseHandler handler = correlationService.take(
           message.getJMSCorrelationID());
+      
       if (handler != null) {
-        handler.handleResponse(response.getGreeting());
+        responseService.deliver(response, handler);
       }
       else {
         System.err.println("response with no handler: " 
