@@ -15,6 +15,9 @@
   <context:annotation-config/>
   <context:component-scan base-package="org.ualerts.demo.ra"/>
       
+  <jee:jndi-lookup id="connectionFactory"
+    jndi-name="java:jboss/activemq/ConnectionFactory"/>
+      
   <oxm:jaxb2-marshaller id="jaxb2Marshaller">
     <oxm:class-to-be-bound name="org.ualerts.demo.GreetingRequest"/>
     <oxm:class-to-be-bound name="org.ualerts.demo.GreetingResponse"/>
@@ -34,9 +37,7 @@
   
   <bean class="org.springframework.jms.listener.SimpleMessageListenerContainer"
     lazy-init="false">
-    <property name="connectionFactory">
-      <jee:jndi-lookup jndi-name="java:jboss/activemq/ConnectionFactory"/>
-    </property>
+    <property name="connectionFactory" ref="connectionFactory"/>
     <property name="messageListener" ref="greetingRequestReceiver"/>
     <property name="destination">
       <jee:jndi-lookup jndi-name="java:jboss/activemq/queue/demo/request"/>
