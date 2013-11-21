@@ -3,9 +3,12 @@ package org.ualerts.demo.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Singleton;
 
 @Singleton
+@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 public class GreetingCorrelationServiceBean
     implements GreetingCorrelationService {
 
