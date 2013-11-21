@@ -1,9 +1,12 @@
 package org.ualerts.demo.mdb;
 
 import javax.annotation.Resource;
-import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -19,13 +22,9 @@ import org.ualerts.demo.GreetingRequest;
 import org.ualerts.demo.GreetingResponse;
 import org.ualerts.demo.repository.GreetingRepository;
 
-@MessageDriven(activationConfig = {
-    @ActivationConfigProperty(propertyName = "acknowledgeMode", 
-        propertyValue = "Auto-acknowledge"),
-    @ActivationConfigProperty(propertyName = "destination",
-        propertyValue = "queue/test")
-})
-
+@MessageDriven
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class GreetingRequestReceiver implements MessageListener {
 
   @Resource(name = "jms/ConnectionFactory")
@@ -33,7 +32,7 @@ public class GreetingRequestReceiver implements MessageListener {
 
   @EJB
   private GreetingRepository greetingRepository;
-  
+    
   /**
    * {@inheritDoc}
    */
@@ -45,16 +44,21 @@ public class GreetingRequestReceiver implements MessageListener {
       String text = ((TextMessage) message).getText();
       GreetingRequest request = (GreetingRequest) 
           GreetingMarshaller.getInstance().unmarshal(text);
+      System.out.println("received request for " + request.getName());
       Destination destination = message.getJMSReplyTo();
       if (destination != null) {
         connection = connectionFactory.createConnection();
-        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        session = connection.createSession(true, Session.SESSION_TRANSACTED);
         MessageProducer producer = session.createProducer(destination);
         TextMessage reply = session.createTextMessage(
             GreetingMarshaller.getInstance().marshal(
                 createResponse(request)));
         reply.setJMSCorrelationID(message.getJMSCorrelationID());
         producer.send(reply);
+        System.out.println("sent reply to " + destination);
+      }
+      else {
+        System.out.println("no reply-to address");
       }
     }
     catch (ClassCastException ex) {
