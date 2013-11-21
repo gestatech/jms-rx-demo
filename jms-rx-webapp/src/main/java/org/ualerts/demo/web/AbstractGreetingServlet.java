@@ -46,6 +46,7 @@ public abstract class AbstractGreetingServlet extends HttpServlet {
       throws ServletException, IOException {
     if (headerContains(request, ACCEPT_HEADER, TEXT_HTML_TYPE)) {
       request.setAttribute("greeting", greeting);
+      request.setAttribute("name", request.getParameter("name"));
       request.getRequestDispatcher(SUCCESS_VIEW).forward(request, response);
     }
     else {
