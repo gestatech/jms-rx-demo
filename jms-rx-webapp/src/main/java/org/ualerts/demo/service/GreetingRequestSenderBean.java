@@ -31,7 +31,7 @@ public class GreetingRequestSenderBean implements GreetingRequestSender,
   @Resource(name = "jms/queue/testReply")
   private Destination replyQueue;
 
-  private volatile double errorProbability = 0.1;
+  private volatile double errorProbability = 0.001;
   
   /**
    * Gets the {@code errorProbability} property.
