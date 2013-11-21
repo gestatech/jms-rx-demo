@@ -1,8 +1,11 @@
 package org.ualerts.demo.mdb.spring;
 
-import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -18,12 +21,9 @@ import org.ualerts.demo.GreetingRequest;
 import org.ualerts.demo.GreetingResponse;
 import org.ualerts.demo.repository.GreetingRepository;
 
-@MessageDriven(activationConfig = {
-    @ActivationConfigProperty(propertyName = "destination",
-        propertyValue = "queue/test"),
-    @ActivationConfigProperty(propertyName = "acknowledgeMode",
-        propertyValue = "Auto-acknowledge")
-})
+@MessageDriven
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 
 @Interceptors(SpringBeanAutowiringInterceptor.class)
 
@@ -46,6 +46,7 @@ public class EnhancedGreetingRequestReceiver implements MessageListener {
     try {
       GreetingRequest request = (GreetingRequest) 
           messageConverter.fromMessage(message);
+      System.out.println("received request for " + request.getName());
       Destination destination = message.getJMSReplyTo();
       if (destination != null) {
         jmsTemplate.convertAndSend(destination, createResponse(request),
@@ -56,6 +57,7 @@ public class EnhancedGreetingRequestReceiver implements MessageListener {
                 return reply;
               }          
         });
+        System.out.println("sent reply to " + destination);
       }
     }
     catch (ClassCastException ex) {
