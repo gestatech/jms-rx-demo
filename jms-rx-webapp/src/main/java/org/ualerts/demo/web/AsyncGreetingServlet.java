@@ -21,11 +21,18 @@ public class AsyncGreetingServlet extends AbstractGreetingServlet {
   
   @Override
   protected void produceGreeting(String name, 
-      HttpServletRequest request, HttpServletResponse response) {
-    request.startAsync();
+      HttpServletRequest request, HttpServletResponse response) 
+      throws IOException {
     request.setAttribute("name", name);
-    greetingService.generateGreeting(name, 
-        new AsyncGreetingResponseHandler(request, response));
+    try {
+      greetingService.generateGreeting(name, 
+          new AsyncGreetingResponseHandler(request, response));
+      request.startAsync();
+    }
+    catch (Exception ex) {
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+          ex.toString());
+    }
   }
   
   private class AsyncGreetingResponseHandler implements GreetingResponseHandler {

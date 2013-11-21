@@ -1,6 +1,7 @@
 package org.ualerts.demo.web;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -8,7 +9,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,21 +16,12 @@ import org.ualerts.demo.service.GreetingResponseHandler;
 import org.ualerts.demo.service.GreetingService;
 
 @WebServlet(urlPatterns = "/sync")
-public class SyncGreetingServlet extends HttpServlet {
+public class SyncGreetingServlet extends AbstractGreetingServlet {
 
   private static final long serialVersionUID = 5888009870899864827L;
 
-  private static final String ACCEPT_HEADER = "Accept";
-  private static final String TEXT_HTML_TYPE = "text/html";
-  private static final String TEXT_PLAIN_TYPE = "text/plain";
-
-  private static final String VIEWS_LOCATION = "/WEB-INF/views/";
-  private static final String FORM_VIEW = VIEWS_LOCATION + "form.jsp";
-  private static final String SUCCESS_VIEW = VIEWS_LOCATION + "success.jsp";
-
   @EJB
   private GreetingService greetingService;
-
   
   @Override
   public void init() throws ServletException {
@@ -40,52 +31,22 @@ public class SyncGreetingServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest request, 
-      HttpServletResponse response) throws ServletException, IOException {
-    String name = request.getParameter("name");
-    if (name == null || name.trim().isEmpty()) {
-      if (headerContains(request, ACCEPT_HEADER, TEXT_HTML_TYPE)) {
-        request.getRequestDispatcher(FORM_VIEW).forward(request, response);
-      }
-      else {
-        response.setContentType(TEXT_PLAIN_TYPE);
-        response.getWriter().println("Specify a name using the 'name' parameter");
-      }
-    }
-    else {
-      produceGreeting(name, request, response);
-    }
-  }
-  
-  protected void respondWithGreeting(String greeting,
-      HttpServletRequest request, HttpServletResponse response) 
-      throws ServletException, IOException {
-    if (headerContains(request, ACCEPT_HEADER, TEXT_HTML_TYPE)) {
-      request.setAttribute("greeting", greeting);
-      request.getRequestDispatcher(SUCCESS_VIEW).forward(request, response);
-    }
-    else {
-      response.setContentType(TEXT_PLAIN_TYPE);
-      response.getWriter().println(greeting);
-    }
-  }
-
-  private boolean headerContains(HttpServletRequest request, String header,
-      String s) {
-    String value = request.getHeader(header);
-    return value != null && value.contains(s);
-  }
-
   protected void produceGreeting(String name, HttpServletRequest request,
       HttpServletResponse response) throws ServletException, IOException {
     SyncGreetingResponseHandler responseHandler = 
         new SyncGreetingResponseHandler();
-    greetingService.generateGreeting(name, responseHandler);
     try {
-      respondWithGreeting(responseHandler.awaitResponse(), request, response);
+      greetingService.generateGreeting(name, responseHandler);
+      try {
+        respondWithGreeting(responseHandler.awaitResponse(), request, response);
+      }
+      catch (InterruptedException ex) {
+        respondWithGreeting("INTERRUPTED", request, response);
+      }
     }
-    catch (InterruptedException ex) {
-      respondWithGreeting("INTERRUPTED", request, response);
+    catch (Exception ex) {
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+          ex.toString());
     }
   }
   
@@ -111,9 +72,12 @@ public class SyncGreetingServlet extends HttpServlet {
 
     public String awaitResponse() throws InterruptedException {
       lock.lock();
+      long start = System.currentTimeMillis();
+      long now = start;
       try {
-        while (greeting == null) {
-          readyCondition.await();
+        while (greeting == null && now - start < 3000) {
+          readyCondition.await(250, TimeUnit.MILLISECONDS);
+          now = System.currentTimeMillis();
         }
         return greeting;
       }
