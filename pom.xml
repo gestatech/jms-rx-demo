@@ -11,6 +11,17 @@
   <packaging>pom</packaging>
   <name>JMS Receiver Demo</name>
   <description>Demonstrates a couple of different deployment models for server components that receive and act on JMS messages, but don't have any sort of web frontend.</description>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <target>1.7</target>
+          <source>1.7</source>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencyManagement>
     <dependencies>
       <dependency>
