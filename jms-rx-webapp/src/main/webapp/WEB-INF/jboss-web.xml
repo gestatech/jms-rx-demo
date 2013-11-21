@@ -6,19 +6,19 @@
   <resource-ref>
     <res-ref-name>jms/ConnectionFactory</res-ref-name>
     <res-type>javax.jms.ConnectionFactory</res-type>
-    <lookup-name>java:/ConnectionFactory</lookup-name>
+    <lookup-name>java:jboss/activemq/ConnectionFactory</lookup-name>
   </resource-ref>
   
   <resource-ref>
     <res-ref-name>jms/queue/test</res-ref-name>
     <res-type>javax.jms.Queue</res-type>
-    <lookup-name>java:/queue/test</lookup-name>
+    <lookup-name>java:jboss/activemq/queue/demo/request</lookup-name>
   </resource-ref>
   
   <resource-ref>
     <res-ref-name>jms/queue/testReply</res-ref-name>
     <res-type>javax.jms.Queue</res-type>
-    <lookup-name>java:/queue/testReply</lookup-name>
+    <lookup-name>java:jboss/activemq/queue/demo/response</lookup-name>
   </resource-ref>
-
+  
 </jboss:jboss-web>

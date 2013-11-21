@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ejb-jar>
+<jboss:ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:jboss="http://www.jboss.com/xml/ns/javaee">
+
+  <jboss:enterprise-beans>
+    <message-driven>
+      <ejb-name>GreetingResponseReceiver</ejb-name>      
+      <resource-ref>
+        <res-ref-name>jms/ConnectionFactory</res-ref-name>
+        <res-type>javax.jms.ConnectionFactory</res-type>
+        <lookup-name>java:jboss/activemq/ConnectionFactory</lookup-name>
+      </resource-ref>
+      <activation-config>
+        <activation-config-property>
+          <activation-config-property-name>destinationType</activation-config-property-name>
+          <activation-config-property-value>javax.jms.Queue</activation-config-property-value>
+        </activation-config-property>
+        <activation-config-property>
+          <activation-config-property-name>destination</activation-config-property-name>
+          <activation-config-property-value>DEMO.RESPONSE.QUEUE</activation-config-property-value>
+        </activation-config-property>
+      </activation-config>
+    </message-driven>
+  </jboss:enterprise-beans>
+
+</jboss:ejb-jar>
