@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE jboss-web>
-<jboss:jboss-web xmlns="http://java.sun.com/xml/ns/javaee"
+<jboss:jboss-web xmlns="http://xmlns.jcp.org/xml/ns/javaee"
   xmlns:jboss="http://www.jboss.com/xml/ns/javaee">
 
   <resource-ref>

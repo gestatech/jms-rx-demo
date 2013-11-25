@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ejb-jar>
-<jboss:ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+<jboss:ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee"
   xmlns:jboss="http://www.jboss.com/xml/ns/javaee">
 
   <jboss:enterprise-beans>
