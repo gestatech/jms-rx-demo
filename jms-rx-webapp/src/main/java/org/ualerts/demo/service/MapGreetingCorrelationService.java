@@ -9,7 +9,7 @@ import javax.ejb.Singleton;
 
 @Singleton
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
-public class GreetingCorrelationServiceBean
+public class MapGreetingCorrelationService
     implements GreetingCorrelationService {
 
   private final Map<String, GreetingResponseHandler> handlerMap =

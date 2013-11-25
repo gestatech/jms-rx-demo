@@ -3,12 +3,12 @@ package org.ualerts.demo.service;
 import javax.annotation.Resource;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.inject.Inject;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -25,10 +25,10 @@ public class GreetingServiceBean implements GreetingService {
   @Resource(name = "jms/ConnectionFactory")
   private ConnectionFactory connectionFactory;
   
-  @EJB
+  @Inject
   private GreetingCorrelationService correlationService;
   
-  @EJB
+  @Inject
   private GreetingRequestSender sender;
   
   @Override

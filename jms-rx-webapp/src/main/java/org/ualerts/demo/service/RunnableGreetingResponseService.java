@@ -6,16 +6,13 @@ import java.util.concurrent.BlockingQueue;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.Singleton;
 import javax.enterprise.concurrent.ManagedThreadFactory;
+import javax.enterprise.context.ApplicationScoped;
 
 import org.ualerts.demo.GreetingResponse;
 
-@Singleton
-@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
-public class GreetingResponseServiceBean implements GreetingResponseService,
+@ApplicationScoped
+public class RunnableGreetingResponseService implements GreetingResponseService,
     Runnable {
 
   private final BlockingQueue<Runnable> responders =

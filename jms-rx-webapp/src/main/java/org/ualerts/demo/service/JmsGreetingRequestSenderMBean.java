@@ -1,6 +1,6 @@
 package org.ualerts.demo.service;
 
-public interface GreetingRequestSenderBeanMBean {
+public interface JmsGreetingRequestSenderMBean {
 
   double getErrorProbability();
   

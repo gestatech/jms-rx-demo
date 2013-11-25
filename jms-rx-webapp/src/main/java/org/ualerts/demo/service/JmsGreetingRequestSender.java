@@ -5,9 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.Singleton;
+import javax.enterprise.context.ApplicationScoped;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
@@ -20,10 +18,9 @@ import javax.management.ObjectName;
 import org.ualerts.demo.GreetingMarshaller;
 import org.ualerts.demo.GreetingRequest;
 
-@Singleton
-@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
-public class GreetingRequestSenderBean implements GreetingRequestSender,
-    GreetingRequestSenderBeanMBean {
+@ApplicationScoped
+public class JmsGreetingRequestSender implements GreetingRequestSender,
+    JmsGreetingRequestSenderMBean {
 
   @Resource(name = "jms/queue/test")
   private Destination requestQueue;
@@ -53,7 +50,7 @@ public class GreetingRequestSenderBean implements GreetingRequestSender,
   public void init() { 
     try {
       MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
-      ObjectName objName = new ObjectName("Greeter:type=GreetingRequestSenderBean");
+      ObjectName objName = new ObjectName("Greeter:type=GreetingRequestSender");
       mbeanServer.registerMBean(this, objName);
     }
     catch (JMException ex) {
