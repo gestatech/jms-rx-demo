@@ -4,6 +4,7 @@ import java.lang.management.ManagementFactory;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.jms.Destination;
@@ -30,6 +31,8 @@ public class JmsGreetingRequestSender implements GreetingRequestSender,
 
   private volatile double errorProbability = 0.001;
   
+  private ObjectName objName;
+  
   /**
    * Gets the {@code errorProbability} property.
    * @return
@@ -50,14 +53,27 @@ public class JmsGreetingRequestSender implements GreetingRequestSender,
   public void init() { 
     try {
       MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
-      ObjectName objName = new ObjectName("Greeter:type=GreetingRequestSender");
+      objName = new ObjectName("Greeter:type=GreetingRequestSender");
       mbeanServer.registerMBean(this, objName);
     }
     catch (JMException ex) {
       throw new RuntimeException(ex);
     }
   }
+
+  @PreDestroy
+  public void destroy() {
+    if (objName == null) return;
+    try {
+      MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
+      mbeanServer.unregisterMBean(objName);
+    }
+    catch (JMException ex) {
+      throw new RuntimeException(ex);
+    }
+  }
   
+  @Override
   public String sendRequest(GreetingRequest request, Session session)
       throws JMSException {
     MessageProducer producer = session.createProducer(requestQueue);
