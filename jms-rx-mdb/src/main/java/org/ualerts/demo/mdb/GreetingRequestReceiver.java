@@ -44,7 +44,7 @@ public class GreetingRequestReceiver implements MessageListener {
       String text = ((TextMessage) message).getText();
       GreetingRequest request = (GreetingRequest) 
           GreetingMarshaller.getInstance().unmarshal(text);
-      System.out.println("received request for " + request.getName());
+      System.out.println("MDB received request for " + request.getName());
       Destination destination = message.getJMSReplyTo();
       if (destination != null) {
         connection = connectionFactory.createConnection();

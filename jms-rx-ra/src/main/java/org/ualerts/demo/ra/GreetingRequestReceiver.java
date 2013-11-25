@@ -27,6 +27,7 @@ public class GreetingRequestReceiver implements MessageListener {
     try {
       GreetingRequest request = (GreetingRequest) 
           messageConverter.fromMessage(message);
+      System.out.println("RA received request for " + request.getName());
       Destination destination = message.getJMSReplyTo();
       if (destination != null) {
         jmsTemplate.convertAndSend(destination, createResponse(request),
